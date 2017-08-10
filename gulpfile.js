@@ -3,32 +3,47 @@ const uglify = require('gulp-uglify');
 const browserify = require('browserify')
 const source = require("vinyl-source-stream")
 const streamify = require('gulp-streamify')
+const watchify = require('watchify')
 
 gulp.task('build', ['build-normal', 'build-min'], function () {
 })
 
-gulp.task('build-normal', function () {
-  return browserify('./src/qplayer.js', {
-    standalone: 'QPlayer',
-  }).transform("babelify", {presets: ["es2015"], plugins: ['add-module-exports']})
+
+var bundlerNormal = browserify('./src/qplayer.js', {
+  standalone: 'QPlayer',
+  cache: {},
+  packageCache: {},
+  plugin: [watchify]
+}).transform("babelify", {presets: ["es2015"], plugins: ['add-module-exports']})
+
+
+function bundleNormal() {
+  return bundlerNormal
     .bundle()
     .pipe(source('qplayer.js'))
     .pipe(gulp.dest('./dist'))
-})
+}
+gulp.task('build-normal', bundleNormal)
 
-gulp.task('build-min', function () {
-  return browserify('./src/qplayer.js', {
-    standalone: 'QPlayer',
-  }).transform("babelify", {presets: ["es2015"], plugins: ['add-module-exports']})
+
+var bundlerMin = browserify('./src/qplayer.js', {
+  standalone: 'QPlayer',
+  cache: {},
+  packageCache: {},
+  plugin: [watchify]
+}).transform("babelify", {presets: ["es2015"], plugins: ['add-module-exports']})
+function bundleMin() {
+  return bundlerMin
     .bundle()
     .pipe(source('qplayer.min.js'))
     .pipe(streamify(uglify()))
     .pipe(gulp.dest('./dist'))
-})
+}
+gulp.task('build-min', bundleMin)
 
 gulp.task('watch', function() {
-
-  gulp.watch(['src/**/*.js'], ['build']);
+  bundlerNormal.on('update', bundleNormal);
+  bundlerMin.on('update', bundleMin)
 });
 
 gulp.task('default', ['build', 'watch']);

@@ -29,6 +29,7 @@
     "gulp-uglify": "^3.0.0",
     "hls.js": "^0.7.11",
     "uglify-js": "^3.0.27",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.9.0"
   }
 }

@@ -17130,7 +17130,7 @@ function hasOwnProperty(obj, prop) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./support/isBuffer":4,"_process":2,"inherits":3}],6:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -17138,29 +17138,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _hls = require('hls.js');
-
-var _hls2 = _interopRequireDefault(_hls);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var M3u8Player = function () {
-  function M3u8Player(options) {
-    _classCallCheck(this, M3u8Player);
+var BasePlayer = function () {
+  function BasePlayer(options) {
+    _classCallCheck(this, BasePlayer);
 
     var self = this;
-
-    // dom 需要传入一个 div 标签
-    self.__dom = null;
-    if (typeof options.dom === 'string') {
-      self.__dom = document.querySelector(options.dom);
-    } else {
-      self.__dom = options.dom;
-    }
-    self.__videoElement = document.createElement("video");;
-    self.__dom.appendChild(self.__videoElement);
 
     self.__width = options.width;
     self.__height = options.height;
@@ -17175,17 +17159,98 @@ var M3u8Player = function () {
     self.__source = options.source;
     // 视频初始音量
     self.__volume = options.volume;
+  }
+
+  _createClass(BasePlayer, [{
+    key: "init",
+    value: function init(options) {
+      var self = this;
+
+      // dom 需要传入一个 div 标签
+      if (typeof options.dom === 'string') {
+        self.__dom = document.querySelector(options.dom);
+      } else {
+        self.__dom = options.dom;
+      }
+
+      self.__videoElement = document.createElement("video");
+
+      if (self.width) {
+        self.__videoElement.width = self.width;
+      }
+      if (self.__height) {
+        self.__videoElement.height = self.__height;
+      }
+
+      self.__dom.appendChild(self.__videoElement);
+    }
+  }]);
+
+  return BasePlayer;
+}();
+
+exports.default = BasePlayer;
+
+/*
+ 需要抛出的事件
+ ready
+ play
+ pause
+ ended
+ */
+
+module.exports = exports["default"];
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _base_player = require('./base_player');
+
+var _base_player2 = _interopRequireDefault(_base_player);
+
+var _hls = require('hls.js');
+
+var _hls2 = _interopRequireDefault(_hls);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var M3u8Player = function (_BasePlayer) {
+  _inherits(M3u8Player, _BasePlayer);
+
+  function M3u8Player(options) {
+    _classCallCheck(this, M3u8Player);
+
+    var _this = _possibleConstructorReturn(this, (M3u8Player.__proto__ || Object.getPrototypeOf(M3u8Player)).call(this, options));
+
+    var self = _this;
 
     // hls.js 的实例
     self.__hls = null;
 
-    self.init();
+    self.init(options);
+    return _this;
   }
 
   _createClass(M3u8Player, [{
     key: 'init',
-    value: function init() {
+    value: function init(options) {
       var self = this;
+
+      _get(M3u8Player.prototype.__proto__ || Object.getPrototypeOf(M3u8Player.prototype), 'init', this).call(this, options);
 
       self.__hls = new _hls2.default();
       self.__hls.loadSource(self.__source);
@@ -17198,15 +17263,12 @@ var M3u8Player = function () {
   }]);
 
   return M3u8Player;
-}();
+}(_base_player2.default);
 
 exports.default = M3u8Player;
 module.exports = exports['default'];
 
-},{"hls.js":1}],7:[function(require,module,exports){
-"use strict";
-
-},{}],8:[function(require,module,exports){
+},{"./base_player":6,"hls.js":1}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17214,6 +17276,66 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _base_player = require('./base_player');
+
+var _base_player2 = _interopRequireDefault(_base_player);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Mp4Player = function (_BasePlayer) {
+  _inherits(Mp4Player, _BasePlayer);
+
+  function Mp4Player(options) {
+    _classCallCheck(this, Mp4Player);
+
+    var _this = _possibleConstructorReturn(this, (Mp4Player.__proto__ || Object.getPrototypeOf(Mp4Player)).call(this, options));
+
+    var self = _this;
+
+    self.init(options);
+    return _this;
+  }
+
+  _createClass(Mp4Player, [{
+    key: 'init',
+    value: function init(options) {
+      var self = this;
+
+      _get(Mp4Player.prototype.__proto__ || Object.getPrototypeOf(Mp4Player.prototype), 'init', this).call(this, options);
+
+      self.__videoElement.src = self.__source;
+
+      // self.__hls = new Hls();
+      // self.__hls.loadSource(self.__source);
+      // self.__hls.attachMedia(self.__videoElement);
+      //
+      // self.__hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      //   self.__videoElement.play();
+      // });
+    }
+  }]);
+
+  return Mp4Player;
+}(_base_player2.default);
+
+exports.default = Mp4Player;
+module.exports = exports['default'];
+
+},{"./base_player":6}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _m3u8_player = require('./m3u8_player');
 
@@ -17229,92 +17351,22 @@ var _qplayer_error2 = _interopRequireDefault(_qplayer_error);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var QPlayer = {};
 
-var QPlayer = function () {
-  function QPlayer(options) {
-    _classCallCheck(this, QPlayer);
-
-    var self = this;
-
-    self.__player = null;
-
-    if (options.vType == 'mp4') {
-      self.__player = new _mp4_player2.default(options);
-    } else if (options.vType == 'm3u8') {
-      self.__player = new _m3u8_player2.default(options);
-    } else {
-      throw new _qplayer_error2.default('unsupport vType');
-    }
+QPlayer.create = function (options) {
+  if (options.vType == 'mp4') {
+    return new _mp4_player2.default(options);
+  } else if (options.vType == 'm3u8') {
+    return new _m3u8_player2.default(options);
+  } else {
+    throw new _qplayer_error2.default('unsupport vType');
   }
-
-  _createClass(QPlayer, [{
-    key: 'play',
-    value: function play() {
-      this.__player.play();
-    }
-  }, {
-    key: 'pause',
-    value: function pause() {
-      this.__player.pause();
-    }
-  }, {
-    key: 'mute',
-    value: function mute() {
-      this.__player.mute();
-    }
-  }, {
-    key: 'seek',
-    value: function seek() {
-      this.__player.seek();
-    }
-  }, {
-    key: 'setVolume',
-    value: function setVolume() {
-      this.__player.setVolume();
-    }
-  }, {
-    key: 'getVolume',
-    value: function getVolume() {
-      this.__player.getVolume();
-    }
-  }, {
-    key: 'isPlaying',
-    value: function isPlaying() {
-      this.__player.isPlaying();
-    }
-  }, {
-    key: 'getDuration',
-    value: function getDuration() {
-      this.__player.getDuration();
-    }
-  }, {
-    key: 'getCurrentTime',
-    value: function getCurrentTime() {
-      this.__player.getCurrentTime();
-    }
-  }, {
-    key: 'fullScreen',
-    value: function fullScreen() {
-      this.__player.fullScreen();
-    }
-  }]);
-
-  return QPlayer;
-}();
-
-/*
-需要抛出的事件
- ready
- play
- pause
- ended
- */
+};
 
 exports.default = QPlayer;
 module.exports = exports['default'];
 
-},{"./m3u8_player":6,"./mp4_player":7,"./qplayer_error":9}],9:[function(require,module,exports){
+},{"./m3u8_player":7,"./mp4_player":8,"./qplayer_error":10}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -17345,5 +17397,5 @@ _util2.default.inherits(QPlayerError, Error);
 exports.default = QPlayerError;
 module.exports = exports['default'];
 
-},{"util":5}]},{},[8])(8)
+},{"util":5}]},{},[9])(9)
 });
