@@ -1,59 +1,71 @@
+import M3u8Player from './m3u8_player'
+import Mp4Player from './mp4_player'
+import QPlayerError from './qplayer_error'
 
 
-function QPlayer(options) {
-  var self = this;
+class QPlayer {
+  constructor(options) {
+    const self = this;
 
-  self.__width = null;
-  self.__height = null;
-  // 是否直播
-  self.__live = null;
-  // 是否自动播放
-  self.__autoplay = null;
+    self.__player = null;
 
-  // 视频类型
-  self.__vType = null;
-  //
-  self.__source = null;
+    if (options.vType == 'mp4') {
+      self.__player = new Mp4Player(options)
+    } else if (options.vType == 'm3u8') {
+      self.__player = new M3u8Player(options);
+    } else {
+      throw new QPlayerError('unsupport vType')
+    }
+  };
 
-  self.__volume = null;
+  play() {
+    this.__player.play()
+  }
 
-  self.setOptions(options)
+  pause() {
+    this.__player.pause()
+  }
+
+  mute() {
+    this.__player.mute()
+  }
+
+  seek() {
+    this.__player.seek()
+  }
+
+  setVolume() {
+    this.__player.setVolume()
+  }
+
+  getVolume() {
+    this.__player.getVolume()
+  }
+
+  isPlaying() {
+    this.__player.isPlaying()
+  }
+
+  getDuration() {
+    this.__player.getDuration()
+  }
+
+  getCurrentTime() {
+    this.__player.getCurrentTime()
+  }
+
+  fullScreen() {
+    this.__player.fullScreen()
+  }
 }
 
-QPlayer.prototype.setOptions = function (options) {
+/*
+需要抛出的事件
+ ready
+ play
+ pause
+ ended
+ */
 
-}
 
-QPlayer.prototype.play = function (options) {
-
-}
-
-QPlayer.prototype.pause = function (options) {
-
-}
-
-QPlayer.prototype.mute = function (options) {
-
-}
-
-QPlayer.prototype.setVolume = function (options) {
-
-}
-
-QPlayer.prototype.isPlaying = function (options) {
-
-}
-
-QPlayer.prototype.getDuration = function () {
-
-}
-
-QPlayer.prototype.getCurrentTime = function () {
-
-}
-
-QPlayer.prototype.fullScreen = function () {
-
-}
-
-exports = module.exports = QPlayer;
+export default QPlayer
