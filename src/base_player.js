@@ -1,3 +1,5 @@
+import QPlayerError from './qplayer_error'
+
 class BasePlayer {
   constructor(options) {
     const self = this;
@@ -36,6 +38,7 @@ class BasePlayer {
       self.__videoElement.height = self.__height;
     }
     self.__videoElement.controls = true;
+    self.__videoElement.playsinline = true;
 
     self.__dom.appendChild(self.__videoElement);
   }
@@ -82,9 +85,11 @@ class BasePlayer {
   }
 
   getCurrentTime() {
+    return this.__videoElement.currentTime;
   }
 
   fullScreen() {
+    throw new QPlayerError('not implement method')
   }
 }
 

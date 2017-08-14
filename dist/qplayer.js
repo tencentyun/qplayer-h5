@@ -17130,13 +17130,19 @@ function hasOwnProperty(obj, prop) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./support/isBuffer":4,"_process":2,"inherits":3}],6:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _qplayer_error = require('./qplayer_error');
+
+var _qplayer_error2 = _interopRequireDefault(_qplayer_error);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -17162,7 +17168,7 @@ var BasePlayer = function () {
   }
 
   _createClass(BasePlayer, [{
-    key: "init",
+    key: 'init',
     value: function init(options) {
       var self = this;
 
@@ -17186,21 +17192,21 @@ var BasePlayer = function () {
       self.__dom.appendChild(self.__videoElement);
     }
   }, {
-    key: "play",
+    key: 'play',
     value: function play() {
       this.__videoElement.play();
 
       return this;
     }
   }, {
-    key: "pause",
+    key: 'pause',
     value: function pause() {
       this.__videoElement.pause();
 
       return this;
     }
   }, {
-    key: "mute",
+    key: 'mute',
     value: function mute(isMute) {
       if (isMute === void 0) {
         isMute = true;
@@ -17210,35 +17216,39 @@ var BasePlayer = function () {
       return this;
     }
   }, {
-    key: "seek",
+    key: 'seek',
     value: function seek() {}
   }, {
-    key: "setVolume",
+    key: 'setVolume',
     value: function setVolume(volume) {
       this.__videoElement.volume = volume;
       return this;
     }
   }, {
-    key: "getVolume",
+    key: 'getVolume',
     value: function getVolume() {
       return this.__videoElement.volume;
     }
   }, {
-    key: "isPlaying",
+    key: 'isPlaying',
     value: function isPlaying() {
       return !this.__videoElement.paused;
     }
   }, {
-    key: "getDuration",
+    key: 'getDuration',
     value: function getDuration() {
       return this.__videoElement.duration;
     }
   }, {
-    key: "getCurrentTime",
-    value: function getCurrentTime() {}
+    key: 'getCurrentTime',
+    value: function getCurrentTime() {
+      return this.__videoElement.currentTime;
+    }
   }, {
-    key: "fullScreen",
-    value: function fullScreen() {}
+    key: 'fullScreen',
+    value: function fullScreen() {
+      throw new _qplayer_error2.default('not implement method');
+    }
   }]);
 
   return BasePlayer;
@@ -17254,9 +17264,9 @@ exports.default = BasePlayer;
  ended
  */
 
-module.exports = exports["default"];
+module.exports = exports['default'];
 
-},{}],7:[function(require,module,exports){
+},{"./qplayer_error":10}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
