@@ -17,7 +17,7 @@
 
 ## 示例
 
-### mp4 点播
+### mp4 播放
 
 ```js
   var player = QPlayer.create({
@@ -28,7 +28,9 @@
   })
 ```
 
-### m3u8 直播
+在线体验： https://raw.githack.com/tencentyun/qplayer-h5/master/test/mp4_player.test.html
+
+### m3u8 播放
 
 ```js
   var player = QPlayer.create({
@@ -38,3 +40,5 @@
     width: 500,
   })
 ```
+
+在线体验： https://raw.githack.com/tencentyun/qplayer-h5/master/test/mp4_player.test.html
