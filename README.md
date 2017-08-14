@@ -23,8 +23,10 @@
   var player = QPlayer.create({
     vType: 'mp4',
     dom: '.v1',
-    source: 'http://online-1253125191.cossh.myqcloud.com/test_new_logo/dragons1.mp4.f40.mp4',
-    width: 500,
+    source: 'https://online-1253125191.cossh.myqcloud.com/test_new_logo/dragons1.mp4.f40.mp4',
+    width: 300,
+    coverImg: 'https://dn-cnode.qbox.me/Fv8fvViUeOJpBlOWYzBo1txRUhdN',
+    autoplay: true,
   })
 ```
 
@@ -36,8 +38,10 @@
   var player = QPlayer.create({
     vType: 'm3u8',
     dom: '.v1',
-    source: 'http://online-1253125191.cossh.myqcloud.com/test_new_logo/dragons1.mp4.f40.m3u8',
-    width: 500,
+    source: 'http://phonetx.qing.mgtv.com/nn_live/nn_x64/cz1hNTFjZWRiOThjYjVmMjNhYmZlYTFlZDE4YTc3ZjJlYSZjZG5leF9pZD10eF9wY19saXZlMiZpZD1DUERNUFAzNjAmdj0xJmU9NTAxNzcwMw,,/CPDMPP360.m3u8',
+    width: 300,
+    coverImg: 'https://dn-cnode.qbox.me/Fv8fvViUeOJpBlOWYzBo1txRUhdN',
+    autoplay: true,
   })
 ```
 
@@ -45,10 +49,11 @@
 
 ## TODO
 
+* [ ] 写README文档
 * [x] ios播放时不自动全屏
 * [x] ios 可播放 m3u8
 * [ ] 测试更多平台和浏览器
-* [ ] 播放前的图片显示 
+* [x] 播放前的图片显示 
 * [ ] 直播时的进度条
 * [ ] 各类事件监听
     需要抛出的事件

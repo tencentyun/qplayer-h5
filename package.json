@@ -1,6 +1,6 @@
 {
   "name": "qplayer-h5",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "video player for tencent cloud cdn",
   "main": "src/qplayer.js",
   "scripts": {

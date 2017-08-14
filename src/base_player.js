@@ -17,6 +17,7 @@ class BasePlayer {
     self.__source = options.source;
     // 视频初始音量
     self.__volume = options.volume;
+    // 视频封面
     self.__coverImg = options.coverImg;
   }
 
@@ -38,10 +39,15 @@ class BasePlayer {
     if (self.__height) {
       self.__videoElement.height = self.__height;
     }
-    self.__videoElement.controls = true;
+    self.__videoElement.setAttribute('controls', 'controls')
     self.__videoElement.setAttribute('playsinline', ''); // 阻止 ios 自动全屏播放
+    self.__videoElement.setAttribute('webkit-playsinline', ''); // 阻止 ios 自动全屏播放
     self.__videoElement.poster = self.__coverImg;
+    self.__videoElement.autoplay = self.__autoplay;
 
+    if (self.__volume) {
+      self.setVolume(self.__volume);
+    }
     self.__dom.appendChild(self.__videoElement);
   }
 
