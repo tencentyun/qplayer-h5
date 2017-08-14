@@ -18,9 +18,13 @@ class M3u8Player extends BasePlayer {
 
     super.init(options);
 
-    self.__hls = new Hls();
-    self.__hls.loadSource(self.__source);
-    self.__hls.attachMedia(self.__videoElement);
+    if (Hls.isSupported()) {
+      self.__hls = new Hls();
+      self.__hls.loadSource(self.__source);
+      self.__hls.attachMedia(self.__videoElement);
+    } else {
+      self.__videoElement.src = self.__source
+    }
   }
 }
 

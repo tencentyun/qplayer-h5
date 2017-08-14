@@ -4,6 +4,7 @@ const browserify = require('browserify')
 const source = require("vinyl-source-stream")
 const streamify = require('gulp-streamify')
 const watchify = require('watchify')
+const _ = require('lodash')
 
 gulp.task('build', ['build-normal', 'build-min'], function () {
 })
@@ -42,8 +43,12 @@ function bundleMin() {
 gulp.task('build-min', bundleMin)
 
 gulp.task('watch', function() {
+  bundleNormal()
+  bundleMin()
+
   bundlerNormal.on('update', bundleNormal);
-  bundlerMin.on('update', bundleMin)
+  // bundleMin 太耗费cpu了，所以推后
+  bundlerMin.on('update', _.debounce(bundleMin, 5 * 1000))
 });
 
 gulp.task('default', ['build', 'watch']);

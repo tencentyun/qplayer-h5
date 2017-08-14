@@ -28,6 +28,7 @@
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^3.0.0",
     "hls.js": "^0.7.11",
+    "lodash": "^4.17.4",
     "uglify-js": "^3.0.27",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0"

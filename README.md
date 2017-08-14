@@ -42,3 +42,18 @@
 ```
 
 在线体验： https://raw.githack.com/tencentyun/qplayer-h5/master/test/m3u8_player.test.html
+
+## TODO
+
+* [x] ios播放时不自动全屏
+* [x] ios 可播放 m3u8
+* [ ] 测试更多平台和浏览器
+* [ ] 播放前的图片显示 
+* [ ] 直播时的进度条
+* [ ] 各类事件监听
+    需要抛出的事件
+    ready
+    play
+    pause
+    ended
+    

@@ -10,9 +10,8 @@ QPlayer.create = function (options) {
   } else if (options.vType == 'm3u8') {
     return new M3u8Player(options);
   } else {
-    throw new QPlayerError('unsupport vType')
+    throw new QPlayerError('unsupport vType.')
   }
 }
-
 
 export default QPlayer

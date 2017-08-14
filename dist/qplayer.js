@@ -17165,6 +17165,7 @@ var BasePlayer = function () {
     self.__source = options.source;
     // 视频初始音量
     self.__volume = options.volume;
+    self.__coverImg = options.coverImg;
   }
 
   _createClass(BasePlayer, [{
@@ -17188,7 +17189,8 @@ var BasePlayer = function () {
         self.__videoElement.height = self.__height;
       }
       self.__videoElement.controls = true;
-      self.__videoElement.playsinline = true;
+      self.__videoElement.setAttribute('playsinline', ''); // 阻止 ios 自动全屏播放
+      self.__videoElement.poster = self.__coverImg;
 
       self.__dom.appendChild(self.__videoElement);
     }
@@ -17218,7 +17220,9 @@ var BasePlayer = function () {
     }
   }, {
     key: 'seek',
-    value: function seek() {}
+    value: function seek() {
+      throw new _qplayer_error2.default('not implement method');
+    }
   }, {
     key: 'setVolume',
     value: function setVolume(volume) {
@@ -17256,15 +17260,6 @@ var BasePlayer = function () {
 }();
 
 exports.default = BasePlayer;
-
-/*
- 需要抛出的事件
- ready
- play
- pause
- ended
- */
-
 module.exports = exports['default'];
 
 },{"./qplayer_error":10}],7:[function(require,module,exports){
@@ -17318,9 +17313,13 @@ var M3u8Player = function (_BasePlayer) {
 
       _get(M3u8Player.prototype.__proto__ || Object.getPrototypeOf(M3u8Player.prototype), 'init', this).call(this, options);
 
-      self.__hls = new _hls2.default();
-      self.__hls.loadSource(self.__source);
-      self.__hls.attachMedia(self.__videoElement);
+      if (_hls2.default.isSupported()) {
+        self.__hls = new _hls2.default();
+        self.__hls.loadSource(self.__source);
+        self.__hls.attachMedia(self.__videoElement);
+      } else {
+        self.__videoElement.src = self.__source;
+      }
     }
   }]);
 
@@ -17413,7 +17412,7 @@ QPlayer.create = function (options) {
   } else if (options.vType == 'm3u8') {
     return new _m3u8_player2.default(options);
   } else {
-    throw new _qplayer_error2.default('unsupport vType');
+    throw new _qplayer_error2.default('unsupport vType.');
   }
 };
 

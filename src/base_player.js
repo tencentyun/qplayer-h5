@@ -17,6 +17,7 @@ class BasePlayer {
     self.__source = options.source;
     // 视频初始音量
     self.__volume = options.volume;
+    self.__coverImg = options.coverImg;
   }
 
   init(options) {
@@ -38,7 +39,8 @@ class BasePlayer {
       self.__videoElement.height = self.__height;
     }
     self.__videoElement.controls = true;
-    self.__videoElement.playsinline = true;
+    self.__videoElement.setAttribute('playsinline', ''); // 阻止 ios 自动全屏播放
+    self.__videoElement.poster = self.__coverImg;
 
     self.__dom.appendChild(self.__videoElement);
   }
@@ -65,6 +67,7 @@ class BasePlayer {
   }
 
   seek() {
+    throw new QPlayerError('not implement method')
   }
 
   setVolume(volume) {
@@ -94,12 +97,3 @@ class BasePlayer {
 }
 
 export default BasePlayer
-
-
-/*
- 需要抛出的事件
- ready
- play
- pause
- ended
- */
