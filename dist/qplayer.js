@@ -17188,6 +17188,7 @@ var BasePlayer = function () {
         self.__videoElement.height = self.__height;
       }
       self.__videoElement.controls = true;
+      self.__videoElement.playsinline = true;
 
       self.__dom.appendChild(self.__videoElement);
     }
