@@ -29,14 +29,62 @@ class BasePlayer {
 
     self.__videoElement = document.createElement("video");
 
-    if (self.width) {
-      self.__videoElement.width = self.width;
+    if (self.__width) {
+      self.__videoElement.width = self.__width;
     }
     if (self.__height) {
       self.__videoElement.height = self.__height;
     }
+    self.__videoElement.controls = true;
 
     self.__dom.appendChild(self.__videoElement);
+  }
+
+  play() {
+    this.__videoElement.play()
+
+    return this;
+  }
+
+  pause() {
+    this.__videoElement.pause()
+
+    return this;
+  }
+
+  mute(isMute) {
+    if (isMute === void 0) {
+      isMute = true;
+    }
+    this.__videoElement.muted = isMute
+
+    return this;
+  }
+
+  seek() {
+  }
+
+  setVolume(volume) {
+    this.__videoElement.volume = volume
+    return this;
+  }
+
+  getVolume() {
+    return this.__videoElement.volume;
+  }
+
+  isPlaying() {
+    return !this.__videoElement.paused
+  }
+
+  getDuration() {
+    return this.__videoElement.duration;
+  }
+
+  getCurrentTime() {
+  }
+
+  fullScreen() {
   }
 }
 

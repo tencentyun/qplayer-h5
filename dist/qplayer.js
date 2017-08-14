@@ -17175,15 +17175,70 @@ var BasePlayer = function () {
 
       self.__videoElement = document.createElement("video");
 
-      if (self.width) {
-        self.__videoElement.width = self.width;
+      if (self.__width) {
+        self.__videoElement.width = self.__width;
       }
       if (self.__height) {
         self.__videoElement.height = self.__height;
       }
+      self.__videoElement.controls = true;
 
       self.__dom.appendChild(self.__videoElement);
     }
+  }, {
+    key: "play",
+    value: function play() {
+      this.__videoElement.play();
+
+      return this;
+    }
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.__videoElement.pause();
+
+      return this;
+    }
+  }, {
+    key: "mute",
+    value: function mute(isMute) {
+      if (isMute === void 0) {
+        isMute = true;
+      }
+      this.__videoElement.muted = isMute;
+
+      return this;
+    }
+  }, {
+    key: "seek",
+    value: function seek() {}
+  }, {
+    key: "setVolume",
+    value: function setVolume(volume) {
+      this.__videoElement.volume = volume;
+      return this;
+    }
+  }, {
+    key: "getVolume",
+    value: function getVolume() {
+      return this.__videoElement.volume;
+    }
+  }, {
+    key: "isPlaying",
+    value: function isPlaying() {
+      return !this.__videoElement.paused;
+    }
+  }, {
+    key: "getDuration",
+    value: function getDuration() {
+      return this.__videoElement.duration;
+    }
+  }, {
+    key: "getCurrentTime",
+    value: function getCurrentTime() {}
+  }, {
+    key: "fullScreen",
+    value: function fullScreen() {}
   }]);
 
   return BasePlayer;
@@ -17255,10 +17310,6 @@ var M3u8Player = function (_BasePlayer) {
       self.__hls = new _hls2.default();
       self.__hls.loadSource(self.__source);
       self.__hls.attachMedia(self.__videoElement);
-
-      self.__hls.on(_hls2.default.Events.MANIFEST_PARSED, function () {
-        self.__videoElement.play();
-      });
     }
   }]);
 
@@ -17313,14 +17364,6 @@ var Mp4Player = function (_BasePlayer) {
       _get(Mp4Player.prototype.__proto__ || Object.getPrototypeOf(Mp4Player.prototype), 'init', this).call(this, options);
 
       self.__videoElement.src = self.__source;
-
-      // self.__hls = new Hls();
-      // self.__hls.loadSource(self.__source);
-      // self.__hls.attachMedia(self.__videoElement);
-      //
-      // self.__hls.on(Hls.Events.MANIFEST_PARSED,function() {
-      //   self.__videoElement.play();
-      // });
     }
   }]);
 
