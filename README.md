@@ -45,7 +45,7 @@
   })
 ```
 
-在线体验： https://raw.githack.com/tencentyun/qplayer-h5/master/test/m3u8_player.test.html
+在线体验： https://raw.githack.com/tencentyun/qplayer-h5/master/test/m3u8_vod_player.test.html
 
 ## TODO
 
