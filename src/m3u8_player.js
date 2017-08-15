@@ -1,5 +1,6 @@
 import BasePlayer from './base_player'
 import Hls from 'hls.js'
+import bowser from 'bowser'
 
 class M3u8Player extends BasePlayer {
   constructor(options) {
@@ -18,11 +19,14 @@ class M3u8Player extends BasePlayer {
 
     super.init(options);
 
-    if (Hls.isSupported()) {
+    if (bowser.mobile || bowser.tablet) {
+      self.__videoElement.src = self.__source
+    } else if (Hls.isSupported()) {
       self.__hls = new Hls();
       self.__hls.loadSource(self.__source);
       self.__hls.attachMedia(self.__videoElement);
     } else {
+      // 默认情况
       self.__videoElement.src = self.__source
     }
   }
