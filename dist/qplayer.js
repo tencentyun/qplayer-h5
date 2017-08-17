@@ -17787,10 +17787,10 @@ var BasePlayer = function () {
       self.__videoElement = document.createElement("video");
 
       if (self.__width) {
-        self.__videoElement.width = self.__width;
+        self.__videoElement.setAttribute('width', self.__width);
       }
       if (self.__height) {
-        self.__videoElement.height = self.__height;
+        self.__videoElement.setAttribute('height', self.__height);
       }
       self.__videoElement.setAttribute('controls', 'controls');
       self.__videoElement.setAttribute('playsinline', ''); // 阻止 ios 自动全屏播放
